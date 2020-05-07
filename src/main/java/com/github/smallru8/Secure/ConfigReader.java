@@ -30,6 +30,12 @@ import org.bouncycastle.util.io.pem.PemReader;
 
 import com.github.smallru8.Secure.KeyGen.RSA;
 
+/**
+ * 檢查並初始化config、讀取config
+ * SQL初始化
+ * @author smallru8
+ *
+ */
 public class ConfigReader {
 	public enum KeyType{
 		PUBLIC,PRIVATE

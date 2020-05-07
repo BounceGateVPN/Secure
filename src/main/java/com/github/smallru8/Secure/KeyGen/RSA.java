@@ -14,7 +14,9 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 
+
 /**
+ * Generate RAS keypair.
  * client產生的public key要傳到server的db
  * @author smallru8
  *
