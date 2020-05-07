@@ -49,9 +49,9 @@ public class RSA {
 		RSAPrivateKey privateKey = (RSAPrivateKey)keyPair.getPrivate();
 		
 		pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
-		writePem("key/privateKey.key");
-		pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
 		writePem("key/publicKey.pub");
+		pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
+		writePem("key/privateKey.key");
 	}
 	
 	/**
