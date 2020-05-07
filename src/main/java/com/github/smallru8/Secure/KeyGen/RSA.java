@@ -32,6 +32,11 @@ public class RSA {
 		this.rsaSize = rsaSize;
 	}
 	
+	/**
+	 * Generate RSA key.
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 */
 	public void RSAKeyGen() throws NoSuchAlgorithmException, IOException {
 		Security.addProvider(new BouncyCastleProvider());
 		
@@ -47,6 +52,11 @@ public class RSA {
 		writePem("key/publicKey.pub");
 	}
 	
+	/**
+	 * Write key to file.
+	 * @param fileName
+	 * @throws IOException
+	 */
 	private void writePem(String fileName) throws IOException {
 		PemWriter pemWriter = null;
 		try {
