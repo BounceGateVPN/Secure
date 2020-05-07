@@ -92,7 +92,7 @@ public class ConfigReader {
 				c = DriverManager.getConnection("jdbc:sqlite:config/SQL/Secure.db");
 				stmt = c.createStatement();
 				//建Table
-				String sqlStmt1 = "CREATE TABLE USER"+"(UUID VARCHAR(128),PASSWD VARCHAR(500),Session VARCHAR(128),LastLogInTime INT)charset=utf8;";
+				String sqlStmt1 = "CREATE TABLE USER"+"(Name VARCHAR(128), UUID VARCHAR(128),PASSWD VARCHAR(500),Session VARCHAR(128),LastLogInTime INT, PRIMARY KEY (UUID))charset=utf8;";
 				stmt.executeUpdate(sqlStmt1);
 				c.close();
 				host = "jdbc:sqlite:config/SQL/Secure.db";
@@ -206,7 +206,7 @@ public class ConfigReader {
 			DatabaseMetaData dbm = conn.getMetaData();
 			ResultSet tables = dbm.getTables(null, null, "USER", null);
 			if (!tables.next()) {
-				String sqlStmt1 = "CREATE TABLE USER"+"(UUID VARCHAR(128),PASSWD VARCHAR(500),Session VARCHAR(128),LastLogInTime INT)charset=utf8;";
+				String sqlStmt1 = "CREATE TABLE USER"+"(Name VARCHAR(128), UUID VARCHAR(128),PASSWD VARCHAR(500),Session VARCHAR(128),LastLogInTime INT, PRIMARY KEY (UUID))charset=utf8;";
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(sqlStmt1);
 			}
