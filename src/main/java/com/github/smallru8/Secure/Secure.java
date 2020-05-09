@@ -1,5 +1,6 @@
 package com.github.smallru8.Secure;
 
+import java.io.IOException;
 
 /**
  * 身分驗證
@@ -8,8 +9,15 @@ package com.github.smallru8.Secure;
  */
 public class Secure {
 
+	public static ConfigReader cr;
+	
 	public Secure() {
-		
+		try {
+			cr = new ConfigReader();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

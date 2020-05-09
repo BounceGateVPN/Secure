@@ -30,6 +30,20 @@ import org.bouncycastle.util.io.pem.PemReader;
 
 import com.github.smallru8.Secure.KeyGen.RSA;
 
+/*
+ * SQL格式
+ * |Name(vchar 128)|UUID(vchar 128)|PASSWD(vchar 128)|Session(vchar 128)|LastLogInTime(int)|
+ * 
+ * Name : 使用者名稱
+ * UUID : SHA512(使用者名稱)
+ * PASSWD : 使用者public key
+ * Session : 用PASSWD加密(使用者Session key)
+ * LastLogInTime : 上次連線日期時間
+ * 
+ * 當使用者斷線重連，(檢查上次連線時間)，Server直接發送SQL中Session欄位內容給使用者
+ * 
+ */
+
 /**
  * 檢查並初始化config、讀取config
  * SQL初始化
