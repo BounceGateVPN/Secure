@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Generate session key.
@@ -27,6 +28,14 @@ public class AES {
 		keyGen.init(aesSize);
 		SecretKey secretKey = keyGen.generateKey();
 		return secretKey;
+	}
+	
+	public static byte[] KeytoByteArray(SecretKey key) {
+		return key.getEncoded();
+	}
+	
+	public static SecretKey byteArraytoKey(byte[] keyByte) {
+		return new SecretKeySpec(keyByte,"AES");
 	}
 	
 }
