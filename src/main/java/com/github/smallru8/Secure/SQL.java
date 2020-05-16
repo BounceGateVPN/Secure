@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
 
-import javax.crypto.SecretKey;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -92,6 +91,29 @@ public class SQL {
 	}
 	
 	/**
+	 * 更新使用者名稱
+	 * @param UUID
+	 * @param name
+	 * @return
+	 */
+	public boolean setUserName(String UUID,String name) {
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET Name = ? WHERE UUID == ?;");
+			ps.setString(1, name);
+			ps.setString(2, UUID);
+			int ret = ps.executeUpdate();
+			ps.close();
+			if(ret>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
 	 * 把SQL中PASSWD轉回public key格式
 	 * @param UUID
 	 * @return
@@ -133,6 +155,29 @@ public class SQL {
 	}
 	
 	/**
+	 * 更新public key 輸入pem格式
+	 * @param UUID
+	 * @param pk
+	 * @return
+	 */
+	public boolean setUserPublicKey(String UUID,String pk_PEM) {
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET PASSWD = ? WHERE UUID == ?;");
+			ps.setString(1, pk_PEM);
+			ps.setString(2, UUID);
+			int ret = ps.executeUpdate();
+			ps.close();
+			if(ret>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
 	 * 取得經public key加密過的sessionKey
 	 * @param UUID
 	 * @return
@@ -159,6 +204,32 @@ public class SQL {
 		return cipher_SessionKey.getBytes("UTF-8");
 	}
 	
+	/**
+	 * 存入經public key加密的sessionKey
+	 * @param UUID
+	 * @param sessionK 要先經public key加密
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public boolean setSessionKey(String UUID,byte[] sessionK) throws UnsupportedEncodingException {
+		String BASE64_Cipher_SessionKey = null;
+		BASE64_Cipher_SessionKey = encoder.encodeToString(sessionK);
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET Session = ? WHERE UUID == ?;");
+			ps.setString(1, BASE64_Cipher_SessionKey);
+			ps.setString(2, UUID);
+			int ret = ps.executeUpdate();
+			ps.close();
+			if(ret>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * 取得上次離線時間
@@ -181,6 +252,24 @@ public class SQL {
 			e.printStackTrace();
 		}
 		return time;
+	}
+	
+	public boolean getLastLogInTime(String UUID,int time) {
+		
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET LastLogInTime = ? WHERE UUID == ?;");
+			ps.setInt(1, time);
+			ps.setString(2, UUID);
+			int ret = ps.executeUpdate();
+			ps.close();
+			if(ret>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }
