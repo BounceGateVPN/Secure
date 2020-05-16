@@ -3,6 +3,7 @@ package com.github.smallru8.Secure.TEST;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import com.github.smallru8.Secure.Secure;
 import com.github.smallru8.Secure.KeyGen.RSA;
 
 /**
@@ -13,8 +14,7 @@ import com.github.smallru8.Secure.KeyGen.RSA;
 public class Test1 {
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-		RSA rsa2048 = new RSA(2048);
-		rsa2048.RSAKeyGen();
+		Secure sec = new Secure();
 	}
 	
 }

@@ -14,8 +14,8 @@ public class Secure {
 	
 	public Secure() {
 		try {
-			sql = new SQL();
 			cr = new ConfigReader();
+			sql = new SQL();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

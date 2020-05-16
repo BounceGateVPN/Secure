@@ -29,6 +29,7 @@ import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 
 import com.github.smallru8.Secure.KeyGen.RSA;
+import com.github.smallru8.Secure.Log.Log;
 
 
 /**
@@ -41,6 +42,7 @@ public class ConfigReader {
 	public enum KeyType{
 		PUBLIC,PRIVATE
 	}
+	private final String ModuleName = "ConfigReader";
 	
 	private final String SQLPropertiesPath = "config/SQL/SQL.properties";
 	private final String KeyPropertiesPath = "config/key.properties";
@@ -65,24 +67,28 @@ public class ConfigReader {
 	 */
 	public ConfigReader() throws IOException {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Log.printMsg(ModuleName, Log.MsgType.info, "Loading SQL driver.");
+			//Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
-			System.err.println("SQL driver not found.");
+			Log.printMsg(ModuleName, Log.MsgType.err, "SQL driver not found.");
 			e1.printStackTrace();
 		}
 		if(!new File("config").exists()) {
 			new File("config").mkdirs();
+			Log.printMsg(ModuleName, Log.MsgType.info, "Creating ./config");
 		}
 		if(!new File("config/SQL").exists()) {
 			new File("config/SQL").mkdirs();
+			Log.printMsg(ModuleName, Log.MsgType.info, "Creating ./config/SQL");
 		}
 		Connection c = null;
 		Statement stmt = null;
 		if(!new File(SQLPropertiesPath).exists()) {
 			new File(SQLPropertiesPath).createNewFile();
 			FileWriter SQLProperties = new FileWriter(SQLPropertiesPath);
+			Log.printMsg(ModuleName, Log.MsgType.info, "Creating SQL config.");
 			SQLProperties.write("SQL = false\n");
 			SQLProperties.write("host = jdbc:mysql://localhost/db\n");
 			SQLProperties.write("username = user\n");
@@ -92,6 +98,7 @@ public class ConfigReader {
 
 			try {
 				//建DB
+				Log.printMsg(ModuleName, Log.MsgType.info, "Building SQLite...");
 				c = DriverManager.getConnection("jdbc:sqlite:config/SQL/Secure.db");
 				stmt = c.createStatement();
 				//建Table
@@ -120,6 +127,7 @@ public class ConfigReader {
 		}
 		if(!new File("key").exists()) {
 			new File("key").mkdir();
+			Log.printMsg(ModuleName, Log.MsgType.info, "Creating ./key");
 		}
 		if(!new File(KeyPropertiesPath).exists()) {
 			new File(KeyPropertiesPath).createNewFile();
@@ -131,6 +139,7 @@ public class ConfigReader {
 			publicKeyPath = "key/publicKey.pub";
 			privateKeyPath = "key/privateKey.key";
 		}else {
+			Log.printMsg(ModuleName, Log.MsgType.info, "Loading key pair.");
 			Properties KeyProperties = new Properties();
 			KeyProperties.load(new FileInputStream(KeyPropertiesPath));
 			publicKeyPath = KeyProperties.getProperty("publicKeyPath","key/publicKey.pub");
@@ -140,10 +149,11 @@ public class ConfigReader {
 		
 		//如果public/private key不存在就生成一組
 		if((!new File(publicKeyPath).exists())||(!new File(privateKeyPath).exists())) {
-			System.err.println("Can not find keys, change key path to default path.");
+			Log.printMsg(ModuleName, Log.MsgType.warn, "Can not find keys, change key path to default path.");
 			publicKeyPath = "key/publicKey.pub";
 			privateKeyPath = "key/privateKey.key";
 			if((!new File(publicKeyPath).exists())||(!new File(privateKeyPath).exists())) {
+				Log.printMsg(ModuleName, Log.MsgType.info, "Generating RSA key pair.");
 				RSA rsa2048 = new RSA(2048);
 				try {
 					rsa2048.RSAKeyGen();
@@ -186,6 +196,7 @@ public class ConfigReader {
 		if(UsingSQL) {
 			conn = DriverManager.getConnection(host,userName,passwd);
 		}else {
+			Log.printMsg(ModuleName, Log.MsgType.info, "Connecting to SQL server...");
 			conn = DriverManager.getConnection("jdbc:sqlite:config/SQL/Secure.db");
 		}
 		return conn;
@@ -201,7 +212,7 @@ public class ConfigReader {
 			conn = DriverManager.getConnection(host,userName,passwd);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.err.println("Can not connect to SQL server.");
+			Log.printMsg(ModuleName, Log.MsgType.err, "Can not connect to SQL server.");
 			e.printStackTrace();
 			return false;
 		}
@@ -209,7 +220,7 @@ public class ConfigReader {
 			DatabaseMetaData dbm = conn.getMetaData();
 			ResultSet tables = dbm.getTables(null, null, "USER", null);
 			if (!tables.next()) {
-				
+				Log.printMsg(ModuleName, Log.MsgType.info, "Creating USER Table.");
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(sqlstmt);
 			}
@@ -271,10 +282,11 @@ public class ConfigReader {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             publicKey = kf.generatePublic(keySpec);
+            Log.printMsg(ModuleName, Log.MsgType.info, "Getting public key.");
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Could not reconstruct the public key, the given algorithm could not be found.");
+        	Log.printMsg(ModuleName, Log.MsgType.err, "Could not reconstruct the public key, the given algorithm could not be found.");
         } catch (InvalidKeySpecException e) {
-            System.out.println("Could not reconstruct the public key");
+        	Log.printMsg(ModuleName, Log.MsgType.err, "Could not reconstruct the public key");
         }
 
         return publicKey;
@@ -286,10 +298,11 @@ public class ConfigReader {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
             privateKey = kf.generatePrivate(keySpec);
+            Log.printMsg(ModuleName, Log.MsgType.info, "Getting private key.");
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Could not reconstruct the private key, the given algorithm could not be found.");
+        	Log.printMsg(ModuleName, Log.MsgType.err, "Could not reconstruct the public key, the given algorithm could not be found.");
         } catch (InvalidKeySpecException e) {
-            System.out.println("Could not reconstruct the private key");
+        	Log.printMsg(ModuleName, Log.MsgType.err, "Could not reconstruct the public key");
         }
 
         return privateKey;

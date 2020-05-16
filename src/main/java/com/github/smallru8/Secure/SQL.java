@@ -51,7 +51,7 @@ public class SQL {
 	public SQL() {
 		try {
 			Security.addProvider(new BouncyCastleProvider());
-			Class.forName("com.mysql.jdbc.Driver");
+			//Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
