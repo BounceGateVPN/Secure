@@ -254,7 +254,7 @@ public class SQL {
 		return time;
 	}
 	
-	public boolean getLastLogInTime(String UUID,int time) {
+	public boolean setLastLogInTime(String UUID,int time) {
 		
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET LastLogInTime = ? WHERE UUID == ?;");

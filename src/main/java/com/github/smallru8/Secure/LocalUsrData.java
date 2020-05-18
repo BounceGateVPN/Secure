@@ -26,11 +26,17 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class LocalUsrData {
 
+	public byte[] IPaddr;
+	public int port;
+	
 	public String Name;
 	public String UUID;
-	public RSAPublicKey publicKey;
-	public RSAPrivateKey privateKey;
 	
+	//首次連線用
+	public RSAPublicKey publicKey;//RSA2048 加密
+	public RSAPrivateKey privateKey;//RSA2048 解密
+	
+	//資料傳輸用
 	private Cipher cipher_encrypt;//AES256 CTR 加密
 	private Cipher cipher_decrypt;//AES256 CTR 解密
 	
