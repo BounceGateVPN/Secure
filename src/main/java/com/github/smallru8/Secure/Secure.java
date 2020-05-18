@@ -1,9 +1,6 @@
 package com.github.smallru8.Secure;
 
 import java.io.IOException;
-
-import javax.crypto.spec.SecretKeySpec;
-
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.engines.RSAEngine;
@@ -54,7 +51,7 @@ public class Secure {
 	 * @param key
 	 * @return
 	 */
-	public byte[] decryptData_RSA(byte[] ciphertext,AsymmetricKeyParameter key) {
+	public byte[] decryption_RSA(byte[] ciphertext,AsymmetricKeyParameter key) {
 		byte[] plaintext = null;
         AsymmetricBlockCipher cipher = new RSAEngine();
         cipher.init(false, key);//false表示解密
@@ -65,18 +62,6 @@ public class Secure {
 			e.printStackTrace();
 		}
 		return plaintext;
-	}
-	
-	/**
-	 * AES256 CTR 加密
-	 * @param plaintext
-	 * @param key
-	 * @return
-	 */
-	public byte[] encryption_AES(byte[] plaintext,SecretKeySpec key) {
-		byte[] ciphertext = null;
-		
-		return ciphertext;
 	}
 	
 }
