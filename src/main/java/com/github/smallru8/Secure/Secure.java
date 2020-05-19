@@ -10,6 +10,7 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
 /**
  * 身分驗證
+ * Secure-1.0
  * @author smallru8
  *
  */
