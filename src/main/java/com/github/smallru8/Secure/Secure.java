@@ -8,6 +8,8 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.engines.RSAEngine;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
+import com.github.smallru8.Secure.Config.DefaultConfig;
+
 /**
  * 身分驗證
  * Secure-1.0
@@ -16,13 +18,14 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
  */
 public class Secure {
 
-	public static ConfigReader cr;
+	public static DefaultConfig dc;
 	public static SQL sql;
 	public static LocalUsrData localUsr;
 	
 	public Secure() {
 		try {
-			cr = new ConfigReader();
+			dc = new DefaultConfig("Default");
+			dc.checkAll();
 			sql = new SQL();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -59,7 +59,7 @@ public class SQL {
 			e1.printStackTrace();
 		}
 		try {
-			sqlConn = Secure.cr.getSQLConnection();
+			sqlConn = Secure.dc.getSQLConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

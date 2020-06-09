@@ -27,8 +27,8 @@ public class LocalUsrData extends UsrData{
 		digest.reset();
 		digest.update(Name.getBytes("utf-8"));
 		UUID = String.format("%0128x", new BigInteger(1, digest.digest()));
-		publicKey = Secure.cr.getPublicKey();
-		privateKey = Secure.cr.getPrivateKey();
+		publicKey = Secure.dc.getPublicKey();
+		privateKey = Secure.dc.getPrivateKey();
 		try {
 			cipher_encrypt = Cipher.getInstance("AES/CTR/NoPadding", "BC");
 			cipher_decrypt = Cipher.getInstance("AES/CTR/NoPadding", "BC");
