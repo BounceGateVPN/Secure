@@ -13,8 +13,8 @@ public class Config {
 	protected String passwd = "";
 	protected String host = "";
 	
-	protected String cfgName;
-	protected String cfgDirPath;// config/<name>/
+	public String cfgName;
+	public String cfgDirPath;// config/<name>/
 	
 	public Config(String name) {
 		cfgName = name;

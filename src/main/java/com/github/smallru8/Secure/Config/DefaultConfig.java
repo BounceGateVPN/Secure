@@ -38,6 +38,7 @@ public class DefaultConfig extends Config{
 	private enum KeyType{
 		PUBLIC,PRIVATE
 	}
+	public String UsrName;
 	protected String SQLitePath;// jdbc:sqlite:config/<name>/SQL/Secure.db
 	private String sqlstmt = "CREATE TABLE USER"+"(Name VARCHAR(128), UUID VARCHAR(128),PASSWD VARCHAR(512),Session VARCHAR(512),LastLogInTime INT, PRIMARY KEY (UUID));";
 	private String publicKeyPath;
@@ -117,6 +118,7 @@ public class DefaultConfig extends Config{
 		if(!new File(cfgDirPath + cfgName + ".conf").exists()) {
 			new File(cfgDirPath + cfgName + ".conf").createNewFile();
 			FileWriter cfg = new FileWriter(cfgDirPath + cfgName + ".conf");
+			cfg.write("name = usrName\n");
 			cfg.write("publicKeyPath = " + cfgDirPath + cfgName + "/key/publicKey.pub\n");
 			cfg.write("privateKeyPath = " + cfgDirPath + cfgName + "/key/privateKey.key\n");
 			cfg.write("\n");
@@ -137,6 +139,9 @@ public class DefaultConfig extends Config{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		UsrName = ConfigProperties.getProperty("name","UserName");
+		
 		if(ConfigProperties.getProperty("SQL","false").startsWith("true")) {//SQL
 			UsingSQL = true;
 			host = ConfigProperties.getProperty("host","jdbc:mysql://localhost/db");

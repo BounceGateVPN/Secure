@@ -19,8 +19,8 @@ import com.github.smallru8.Secure.Config.DefaultConfig;
 public class Secure {
 
 	public static DefaultConfig dc;
-	public static SQL sql;
 	public static LocalUsrData localUsr;
+	public SQL sql;
 	
 	public Secure() {
 		try {
