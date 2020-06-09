@@ -12,7 +12,7 @@ import com.github.smallru8.Secure.Config.DefaultConfig;
 
 /**
  * 身分驗證
- * Secure-1.0
+ * Secure-3.0
  * @author smallru8
  *
  */
