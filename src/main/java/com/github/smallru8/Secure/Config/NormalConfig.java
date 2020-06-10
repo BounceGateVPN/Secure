@@ -23,7 +23,7 @@ public class NormalConfig extends DefaultConfig{
 		if(!new File(cfgDirPath + cfgName + ".conf").exists()) {
 			new File(cfgDirPath + cfgName + ".conf").createNewFile();
 			FileWriter cfg = new FileWriter(cfgDirPath + cfgName + ".conf");
-			cfg.write("Default = true\n");//一般的config多出這行
+			cfg.write("Default = false\n");//一般的config多出這行
 			cfg.write("\n");
 			cfg.write("name = usrName\n");
 			cfg.write("publicKeyPath = " + cfgDirPath + cfgName + "/key/publicKey.pub\n");

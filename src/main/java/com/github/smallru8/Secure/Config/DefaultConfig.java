@@ -52,7 +52,7 @@ public class DefaultConfig extends Config{
 	 * @param name
 	 * @throws IOException
 	 */
-	public DefaultConfig(String name) throws IOException {
+	public DefaultConfig(String name) {
 		super(name);
 		try {
 			Log.printMsg(ModuleName, Log.MsgType.info, "Loading SQL driver.");
@@ -104,11 +104,11 @@ public class DefaultConfig extends Config{
 	 */
 	public Connection getSQLConnection() throws SQLException {
 		Connection conn = null;
+		Log.printMsg(ModuleName, Log.MsgType.info, "Connecting to SQL server...");
 		if(UsingSQL) {
 			conn = DriverManager.getConnection(host,userName,passwd);
 		}else {
-			Log.printMsg(ModuleName, Log.MsgType.info, "Connecting to SQL server...");
-			conn = DriverManager.getConnection("jdbc:sqlite:config/SQL/Secure.db");
+			conn = DriverManager.getConnection(host);
 		}
 		return conn;
 	}
@@ -167,8 +167,8 @@ public class DefaultConfig extends Config{
 		//如果public/private key不存在就生成一組
 				if((!new File(publicKeyPath).exists())||(!new File(privateKeyPath).exists())) {
 					Log.printMsg(ModuleName, Log.MsgType.warn, "Can not find keys, change key path to default path.");
-					publicKeyPath = "key/publicKey.pub";
-					privateKeyPath = "key/privateKey.key";
+					//publicKeyPath = "key/publicKey.pub";
+					//privateKeyPath = "key/privateKey.key";
 					if((!new File(publicKeyPath).exists())||(!new File(privateKeyPath).exists())) {
 						Log.printMsg(ModuleName, Log.MsgType.info, "Generating RSA key pair.");
 						RSA rsa2048 = new RSA(2048);

@@ -32,6 +32,7 @@ public class ClientData extends UsrData{
 	public ClientData(String sessionName) throws IOException {
 		this.sessionName = sessionName;
 		nc = new NormalConfig(this.sessionName);
+		nc.checkAll();
 		readDestCfg();
 		try {
 			setUserNameUUID();//設定Name跟UUID

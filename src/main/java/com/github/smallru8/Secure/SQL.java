@@ -43,8 +43,6 @@ import org.bouncycastle.util.io.pem.PemReader;
  */
 public class SQL {
 	
-	private Connection sqlConn;
-	
 	final Base64.Decoder decoder = Base64.getDecoder();
 	final Base64.Encoder encoder = Base64.getEncoder();
 	
@@ -58,12 +56,6 @@ public class SQL {
 			System.err.println("SQL driver not found.");
 			e1.printStackTrace();
 		}
-		try {
-			sqlConn = Secure.dc.getSQLConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -71,7 +63,7 @@ public class SQL {
 	 * @param UUID
 	 * @return
 	 */
-	public String getUserName(String UUID) {
+	public String getUserName(Connection sqlConn,String UUID) {
 		String name = null;
 		
 		try {
@@ -83,6 +75,7 @@ public class SQL {
 			}
 			rs.close();
 			ps.close();
+			sqlConn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,13 +89,14 @@ public class SQL {
 	 * @param name
 	 * @return
 	 */
-	public boolean setUserName(String UUID,String name) {
+	public boolean setUserName(Connection sqlConn,String UUID,String name) {
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET Name = ? WHERE UUID == ?;");
 			ps.setString(1, name);
 			ps.setString(2, UUID);
 			int ret = ps.executeUpdate();
 			ps.close();
+			sqlConn.close();
 			if(ret>0) {
 				return true;
 			}
@@ -118,7 +112,7 @@ public class SQL {
 	 * @param UUID
 	 * @return
 	 */
-	public RSAPublicKey getUserPublicKey(String UUID) {
+	public RSAPublicKey getUserPublicKey(Connection sqlConn,String UUID) {
 		RSAPublicKey publicKey = null;
 
 		try {
@@ -143,6 +137,7 @@ public class SQL {
 			}
 			rs.close();
 			ps.close();
+			sqlConn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,13 +155,14 @@ public class SQL {
 	 * @param pk
 	 * @return
 	 */
-	public boolean setUserPublicKey(String UUID,String pk_PEM) {
+	public boolean setUserPublicKey(Connection sqlConn,String UUID,String pk_PEM) {
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET PASSWD = ? WHERE UUID == ?;");
 			ps.setString(1, pk_PEM);
 			ps.setString(2, UUID);
 			int ret = ps.executeUpdate();
 			ps.close();
+			sqlConn.close();
 			if(ret>0) {
 				return true;
 			}
@@ -183,7 +179,7 @@ public class SQL {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public byte[] getSessionKey(String UUID) throws UnsupportedEncodingException {
+	public byte[] getSessionKey(Connection sqlConn,String UUID) throws UnsupportedEncodingException {
 		String BASE64_Cipher_SessionKey = null;
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("SELECT Session FROM USER WHERE UUID == ?;");
@@ -194,6 +190,7 @@ public class SQL {
 			}
 			rs.close();
 			ps.close();
+			sqlConn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,7 +208,7 @@ public class SQL {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public boolean setSessionKey(String UUID,byte[] sessionK) throws UnsupportedEncodingException {
+	public boolean setSessionKey(Connection sqlConn,String UUID,byte[] sessionK) throws UnsupportedEncodingException {
 		String BASE64_Cipher_SessionKey = null;
 		BASE64_Cipher_SessionKey = encoder.encodeToString(sessionK);
 		try {
@@ -220,6 +217,7 @@ public class SQL {
 			ps.setString(2, UUID);
 			int ret = ps.executeUpdate();
 			ps.close();
+			sqlConn.close();
 			if(ret>0) {
 				return true;
 			}
@@ -236,7 +234,7 @@ public class SQL {
 	 * @param UUID
 	 * @return
 	 */
-	public int getLastLogInTime(String UUID) {
+	public int getLastLogInTime(Connection sqlConn,String UUID) {
 		int time = 0;
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("SELECT LastLogInTime FROM USER WHERE UUID == ?;");
@@ -247,6 +245,7 @@ public class SQL {
 			}
 			rs.close();
 			ps.close();
+			sqlConn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,7 +253,7 @@ public class SQL {
 		return time;
 	}
 	
-	public boolean setLastLogInTime(String UUID,int time) {
+	public boolean setLastLogInTime(Connection sqlConn,String UUID,int time) {
 		
 		try {
 			PreparedStatement ps = sqlConn.prepareStatement("UPDATE USER SET LastLogInTime = ? WHERE UUID == ?;");
@@ -262,6 +261,7 @@ public class SQL {
 			ps.setString(2, UUID);
 			int ret = ps.executeUpdate();
 			ps.close();
+			sqlConn.close();
 			if(ret>0) {
 				return true;
 			}

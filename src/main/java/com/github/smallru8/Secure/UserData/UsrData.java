@@ -5,11 +5,13 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Security;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -37,6 +39,8 @@ public class UsrData {
 			md5 = MessageDigest.getInstance("MD5");
 			md5.update(key);
 			IvParameterSpec ips = new IvParameterSpec(md5.digest());
+			cipher_encrypt = Cipher.getInstance("AES/CTR/NoPadding", "BC");
+			cipher_decrypt = Cipher.getInstance("AES/CTR/NoPadding", "BC");
 			cipher_encrypt.init(Cipher.ENCRYPT_MODE, secretKey, ips);
 			cipher_decrypt.init(Cipher.ENCRYPT_MODE, secretKey, ips);
 		} catch (NoSuchAlgorithmException e) {
@@ -46,6 +50,12 @@ public class UsrData {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
