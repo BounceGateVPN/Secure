@@ -25,6 +25,7 @@ public class ClientData extends UsrData{
 	
 	public String sessionName;//這個連線的名稱 使用者輸入(作為config命名用)
 	
+	public String destSwitchName;//目標Switch名稱
 	public String IPaddr;//server ip
 	public int port;//server port
 	private NormalConfig nc;//讀config拿到private key
@@ -71,6 +72,7 @@ public class ClientData extends UsrData{
 		}
 		IPaddr = ConfigProperties.getProperty("IP","ws://127.0.0.1");
 		port = Integer.parseInt(ConfigProperties.getProperty("Port","80"));
+		destSwitchName = ConfigProperties.getProperty("Switch","desSwitchName");
 		ConfigProperties.clear();
 	}
 	
