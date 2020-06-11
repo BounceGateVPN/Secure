@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class UsrData {
 	public String Name; //使用者輸入 or SQL查出
-	protected String UUID; //根據Name產生
+	public String UUID; //根據Name產生
 	
 	protected Cipher cipher_encrypt;//AES256 CTR 加密
 	protected Cipher cipher_decrypt;//AES256 CTR 解密
