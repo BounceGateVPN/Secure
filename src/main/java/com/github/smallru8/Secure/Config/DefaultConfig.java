@@ -119,8 +119,8 @@ public class DefaultConfig extends Config{
 			new File(cfgDirPath + cfgName + ".conf").createNewFile();
 			FileWriter cfg = new FileWriter(cfgDirPath + cfgName + ".conf");
 			cfg.write("name = usrName\n");
-			cfg.write("publicKeyPath = " + cfgDirPath + cfgName + "/key/publicKey.pub\n");
-			cfg.write("privateKeyPath = " + cfgDirPath + cfgName + "/key/privateKey.key\n");
+			cfg.write("publicKeyPath = " + cfgDirPath + "key/publicKey.pub\n");
+			cfg.write("privateKeyPath = " + cfgDirPath + "key/privateKey.key\n");
 			cfg.write("\n");
 			cfg.write("SQL = false\n");
 			cfg.write("host = " + SQLitePath + "\n");
@@ -162,8 +162,8 @@ public class DefaultConfig extends Config{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		publicKeyPath = ConfigProperties.getProperty("publicKeyPath",cfgDirPath + cfgName + "/key/publicKey.pub");
-		privateKeyPath = ConfigProperties.getProperty("privateKeyPath",cfgDirPath + cfgName + "/key/privateKey.key");;
+		publicKeyPath = ConfigProperties.getProperty("publicKeyPath",cfgDirPath + "key/publicKey.pub");
+		privateKeyPath = ConfigProperties.getProperty("privateKeyPath",cfgDirPath + "key/privateKey.key");;
 		//如果public/private key不存在就生成一組
 				if((!new File(publicKeyPath).exists())||(!new File(privateKeyPath).exists())) {
 					Log.printMsg(ModuleName, Log.MsgType.warn, "Can not find keys, change key path to default path.");
@@ -173,7 +173,7 @@ public class DefaultConfig extends Config{
 						Log.printMsg(ModuleName, Log.MsgType.info, "Generating RSA key pair.");
 						RSA rsa2048 = new RSA(2048);
 						try {
-							rsa2048.RSAKeyGen(cfgDirPath + cfgName + "/key/");
+							rsa2048.RSAKeyGen(cfgDirPath + "key/");
 						} catch (NoSuchAlgorithmException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

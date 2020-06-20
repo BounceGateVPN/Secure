@@ -14,6 +14,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 
+import com.github.smallru8.Secure.Log.Log;
+
 
 /**
  * Generate RAS keypair.
@@ -49,6 +51,7 @@ public class RSA {
 		RSAPrivateKey privateKey = (RSAPrivateKey)keyPair.getPrivate();
 		
 		pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
+		Log.printMsg("RSAKeyGen", Log.MsgType.info, "Generating keypair at : " + path);
 		writePem(path+"publicKey.pub");
 		pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
 		writePem(path+"privateKey.key");

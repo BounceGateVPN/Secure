@@ -16,6 +16,9 @@ import com.github.smallru8.Secure.Config.DefaultConfig;
 public class Secure {
 
 	public static DefaultConfig dc = new DefaultConfig("Default");
+	public static void setDefaultCfg() {
+		dc.checkAll();
+	}
 	
 	/**
 	 * RSA2048加密

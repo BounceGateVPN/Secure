@@ -26,8 +26,8 @@ public class NormalConfig extends DefaultConfig{
 			cfg.write("Default = false\n");//一般的config多出這行
 			cfg.write("\n");
 			cfg.write("name = usrName\n");
-			cfg.write("publicKeyPath = " + cfgDirPath + cfgName + "/key/publicKey.pub\n");
-			cfg.write("privateKeyPath = " + cfgDirPath + cfgName + "/key/privateKey.key\n");
+			cfg.write("publicKeyPath = " + cfgDirPath + "key/publicKey.pub\n");
+			cfg.write("privateKeyPath = " + cfgDirPath + "key/privateKey.key\n");
 			cfg.write("\n");
 			cfg.write("SQL = false\n");
 			cfg.write("host = " + SQLitePath + "\n");
