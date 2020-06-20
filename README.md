@@ -1,4 +1,6 @@
-# Secure
+# Secure  
+## Ver3.3
+Fix RSA2048 method NullPointerException error.  
 ## ConfigReader.java
 ### Method
 #### public ConfigReader()
