@@ -39,7 +39,7 @@ public class RSA {
 	 * @throws NoSuchAlgorithmException
 	 * @throws IOException
 	 */
-	public void RSAKeyGen() throws NoSuchAlgorithmException, IOException {
+	public void RSAKeyGen(String path) throws NoSuchAlgorithmException, IOException {
 		Security.addProvider(new BouncyCastleProvider());
 		
 		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -49,9 +49,9 @@ public class RSA {
 		RSAPrivateKey privateKey = (RSAPrivateKey)keyPair.getPrivate();
 		
 		pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
-		writePem("key/publicKey.pub");
+		writePem(path+"publicKey.pub");
 		pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
-		writePem("key/privateKey.key");
+		writePem(path+"privateKey.key");
 	}
 	
 	/**

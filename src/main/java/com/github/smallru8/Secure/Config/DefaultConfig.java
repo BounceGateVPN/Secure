@@ -173,7 +173,7 @@ public class DefaultConfig extends Config{
 						Log.printMsg(ModuleName, Log.MsgType.info, "Generating RSA key pair.");
 						RSA rsa2048 = new RSA(2048);
 						try {
-							rsa2048.RSAKeyGen();
+							rsa2048.RSAKeyGen(cfgDirPath + cfgName + "/key/");
 						} catch (NoSuchAlgorithmException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
