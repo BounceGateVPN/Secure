@@ -1,11 +1,11 @@
 package com.github.smallru8.Secure.UserData;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import org.java_websocket.WebSocket;
+
+import com.github.smallru8.util.SHA;
 
 /**
  * 保存client資料用
@@ -38,9 +38,6 @@ public class SessionData extends UsrData{
 	
 	private void setUserNameUUID() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-		MessageDigest digest = MessageDigest.getInstance("SHA-512");
-		digest.reset();
-		digest.update(Name.getBytes("utf-8"));
-		UUID = String.format("%0128x", new BigInteger(1, digest.digest()));
+		UUID = SHA.SHA512(Name);
 	}
 }

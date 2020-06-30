@@ -3,8 +3,6 @@ package com.github.smallru8.Secure.UserData;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
@@ -12,6 +10,7 @@ import java.util.Properties;
 
 import com.github.smallru8.Secure.Secure;
 import com.github.smallru8.Secure.Config.NormalConfig;
+import com.github.smallru8.util.SHA;
 
 /**
  * 這個Class會被包在WS client的Class中
@@ -56,10 +55,7 @@ public class ClientData extends UsrData{
 		else
 			Name = nc.UsrName;
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-		MessageDigest digest = MessageDigest.getInstance("SHA-512");
-		digest.reset();
-		digest.update(Name.getBytes("utf-8"));
-		UUID = String.format("%0128x", new BigInteger(1, digest.digest()));
+		UUID = SHA.SHA512(Name);
 	}
 	
 	private void readDestCfg() {

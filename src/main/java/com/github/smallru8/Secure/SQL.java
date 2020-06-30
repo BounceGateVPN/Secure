@@ -22,6 +22,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 
+import com.github.smallru8.util.SHA;
+
 /*
  * SQL Table格式
  * |Name(vchar 128)|UUID(vchar 128)|PASSWD(vchar 128)|Session(vchar 128)|LastLogInTime(int)|
@@ -59,6 +61,38 @@ public class SQL {
 	}
 	
 	/**
+	 * 建立帳號
+	 * Error : return -1
+	 * UUID duplicate : return 1
+	 * success : return 0
+	 * @param sqlConn
+	 * @param name
+	 * @param pubKey
+	 * @return
+	 */
+	public int insertData(Connection sqlConn,String name,String pubKey) {
+		String UUID = SHA.SHA512(name);
+		try {
+			if(getUserName(sqlConn,UUID,false) == null) {
+				PreparedStatement ps = sqlConn.prepareStatement("INSERT INTO USER (Name,UUID,PASSWD,Session,LastLogInTime)\n" + "VALUES (?, ?, ?, 0, 0);");
+				ps.setString(1,name);
+				ps.setString(2,UUID);
+				ps.setString(3,pubKey);
+				int ret = ps.executeUpdate();
+				ps.close();
+				if(ret > 0)
+					return 0;
+			}else {
+				return 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	/**
 	 * 取得使用者名稱
 	 * @param UUID
 	 * @return
@@ -76,6 +110,24 @@ public class SQL {
 			rs.close();
 			ps.close();
 			sqlConn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	public String getUserName(Connection sqlConn,String UUID,boolean b) {
+		String name = null;
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("SELECT Name FROM USER WHERE UUID == ?;");
+			ps.setString(1, UUID);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				name = rs.getString(1);
+			}
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

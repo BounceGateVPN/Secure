@@ -2,8 +2,6 @@ package com.github.smallru8.Secure.UserData;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.sql.Connection;
@@ -12,6 +10,7 @@ import java.sql.SQLException;
 import com.github.smallru8.Secure.SQL;
 import com.github.smallru8.Secure.Secure;
 import com.github.smallru8.Secure.Config.NormalConfig;
+import com.github.smallru8.util.SHA;
 
 /**
  * Switch使用
@@ -27,6 +26,7 @@ public class ServerData extends UsrData{
 		try {
 			nc = new NormalConfig(switchName);//使用預設值可能會出問題
 			nc.checkAll();
+			sql = new SQL();
 			setUserNameUUID();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,9 +60,6 @@ public class ServerData extends UsrData{
 		else
 			Name = nc.UsrName;
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-		MessageDigest digest = MessageDigest.getInstance("SHA-512");
-		digest.reset();
-		digest.update(Name.getBytes("utf-8"));
-		UUID = String.format("%0128x", new BigInteger(1, digest.digest()));
+		UUID = SHA.SHA512(Name);
 	}
 }
