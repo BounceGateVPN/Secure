@@ -80,6 +80,7 @@ public class SQL {
 				ps.setString(3,pubKey);
 				int ret = ps.executeUpdate();
 				ps.close();
+				sqlConn.close();
 				if(ret > 0)
 					return 0;
 			}else {
@@ -90,6 +91,29 @@ public class SQL {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	/**
+	 * Error : return false
+	 * Success : return true
+	 * @param sqlConn
+	 * @param UUID
+	 * @return
+	 */
+	public boolean deleteData(Connection sqlConn,String UUID) {
+		try {
+			PreparedStatement ps = sqlConn.prepareStatement("DELETE FROM USER WHERE UUID == ?;");
+			ps.setString(1, UUID);
+			int ret = ps.executeUpdate();
+			ps.close();
+			sqlConn.close();
+			if(ret > 0)
+				return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	/**
