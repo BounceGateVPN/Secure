@@ -40,7 +40,7 @@ public class DefaultConfig extends Config{
 	}
 	public String UsrName;
 	protected String SQLitePath;// jdbc:sqlite:config/<name>/SQL/Secure.db
-	private String sqlstmt = "CREATE TABLE USER"+"(Name VARCHAR(128), UUID VARCHAR(128),PASSWD VARCHAR(512),Session VARCHAR(512),LastLogInTime INT, PRIMARY KEY (UUID));";
+	private String sqlstmt = "CREATE TABLE USER"+"(Name VARCHAR(128), UUID VARCHAR(512),PASSWD VARCHAR(1024),Session VARCHAR(512),LastLogInTime INT, PRIMARY KEY (UUID));";
 	private String publicKeyPath;
 	private String privateKeyPath;
 	
