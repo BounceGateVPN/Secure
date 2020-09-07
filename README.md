@@ -1,4 +1,4 @@
-# Secure  
+# Secure(Discard)  
 ## Ver3.3
 Fix RSA2048 method NullPointerException error.  
 ## ConfigReader.java
